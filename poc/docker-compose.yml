@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  superset:
+    image: apache/superset:3.1.0
+    volumes:
+      - "./superset_config.py:/app/pythonpath/superset_config.py:ro"
+    environment:
+      - SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.superset.rule=Host(`superset.staging.qubedoo.com`)"
+      - "traefik.http.services.superset.loadbalancer.server.port=8088"
+      - "traefik.http.routers.superset.entrypoints=websecure"
+      - "traefik.http.routers.superset.tls=true"
+      - "traefik.http.routers.superset.tls.certresolver=myresolver"
+    ports:
+      - "8088:8088"
+networks:
+  traefik_public:
+     name: traefik_public
+       external:true
