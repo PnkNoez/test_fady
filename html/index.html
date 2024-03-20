@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XHR POST Request</title>
+</head>
+<body>
+    <h1>XHR POST Request Example</h1>
+
+    <script>
+        const API_URL = '/superset/api/v1/security/login'; // Replace 'YOUR_API_URL_HERE' with your actual API URL
+
+        const xhr = new XMLHttpRequest();
+
+        const params = JSON.stringify({
+ 		"password": "admin",
+  		"provider": "db",
+		"refresh": true,
+  		"username": "admin"});
+
+        xhr.open('POST', API_URL, true);
+        xhr.setRequestHeader('Content-type', 'application/json');
+
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('Response:', xhr.responseText);
+            } else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('Request failed');
+        };
+
+        xhr.send(params);
+    </script>
+</body>
+</html>
+
